@@ -36,23 +36,27 @@ public class CommentServicempl implements CommentService{
 
     @Override
     public List<CommentDTO> findAllComments() {
-        return null;
+        return commentRepository.findAll()
+                .stream()
+                .map(comment -> customMapper.convertCommentToDto(comment))
+                .collect(Collectors.toList());
     }
 
     @Override
     public CommentDTO updateComment(CommentDTO commentDto) {
-        Optional targetComment = commentRepository.findById(commentDto.getId());
-        if(targetComment.isPresent()){
-            Comment commentEdited = commentRepository.save(customMapper.commentDtoToEntity(commentDto));
-            var commentEditedDTO = customMapper.convertCommentToDto(commentEdited);
-            return commentEditedDTO;
+        List<Comment> commentList = commentRepository.findAll();
+        Comment comment = commentRepository.findById(commentDto.getId()).get();
+        if(comment != null){
+            Comment comment1 = commentRepository.save(customMapper.commentDtoToEntity(commentDto));
+            CommentDTO commentDTO = customMapper.convertCommentToDto(comment1);
+            return commentDTO;
         }
-        throw new IllegalStateException("The comment doesn't exist");
+        throw new IllegalStateException("The post doesn't exists");
     }
 
     @Override
-    public void deleteComment(Comment comment) {
-        commentRepository.deleteById(comment.getId());
+    public void deleteComment(Integer id) {
+        commentRepository.deleteById(id);
     }
 
 }

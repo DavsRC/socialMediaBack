@@ -1,8 +1,7 @@
 package com.sofka.davs.socialMediaBack.controller;
 
-
+import com.sofka.davs.socialMediaBack.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.dto.PostDTO;
-import com.sofka.davs.socialMediaBack.entity.Post;
 import com.sofka.davs.socialMediaBack.service.CommentServicempl;
 import com.sofka.davs.socialMediaBack.service.PostServicempl;
 import com.sofka.davs.socialMediaBack.service.UserLikeServicempl;
@@ -12,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/post/")
+@RequestMapping("api/comment/")
 @CrossOrigin("*")
-public class GeneralController {
+public class CommentController {
 
     @Autowired
     private PostServicempl postServicempl;
@@ -25,23 +24,23 @@ public class GeneralController {
     @Autowired
     private UserLikeServicempl userLikeServicempl;
 
-    @GetMapping("get/all/posts")
-    public List<PostDTO> getAllPost(){
-        return postServicempl.findAllPost();
+    @GetMapping("get/all/comments")
+    public List<CommentDTO> getAll(){
+        return commentServicempl.findAllComments();
     }
 
-    @PostMapping("save/posts")
-    public PostDTO createPost(@RequestBody PostDTO postDTO){
-        return postServicempl.createPost(postDTO);
+    @PostMapping("save/comments")
+    public CommentDTO create(@RequestBody CommentDTO commentDTO){
+        return commentServicempl.createComment(commentDTO);
     }
 
     @PutMapping("update/{id}")
-    public PostDTO editPost(@RequestBody PostDTO postDTO){
-        return postServicempl.updatePost(postDTO);
+    public CommentDTO edit(@RequestBody CommentDTO commentDTO){
+        return commentServicempl.updateComment(commentDTO);
     }
 
     @DeleteMapping("delete/{id}")
-    public void deletePost(@PathVariable Integer id){
-        postServicempl.deletePost(id);
+    public void delete(@PathVariable Integer id) {
+        commentServicempl.deleteComment(id);
     }
 }
