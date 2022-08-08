@@ -69,4 +69,24 @@ public class CustomMapper {
         userLikeDto.setComments(entity.getComments());
         return userLikeDto;
     }
+
+    public PostDto updateExistingPost(Post oldPost, PostDto newPost) {
+        var newPostTitle = newPost.getTitle();
+        var newPostContent = newPost.getContent();
+        var newPostNumberOfLikes = newPost.getNumberOfLikes();
+
+        if (newPostTitle != null) {
+            oldPost.setTitle(newPostTitle);
+        }
+
+        if (newPostContent != null) {
+            oldPost.setContent(newPostContent);
+        }
+
+        if (newPostNumberOfLikes != null) {
+            oldPost.setNumberOfLikes(newPostNumberOfLikes);
+        }
+
+        return newPost;
+    }
 }
