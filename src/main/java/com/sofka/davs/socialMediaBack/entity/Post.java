@@ -8,11 +8,12 @@ import java.util.Set;
 @Table(name = "post")
 public class Post {
     @Id
-    @Column(name = "postID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_post", nullable = false)
     private Integer id;
 
-    @Column(name = "tittle", nullable = false, length = 45)
-    private String tittle;
+    @Column(name = "title", nullable = false, length = 45)
+    private String title;
 
     @Column(name = "content", nullable = false, length = 45)
     private String content;
@@ -25,11 +26,11 @@ public class Post {
 
     @ManyToMany
     @JoinTable(name = "user_like_has_post",
-            joinColumns = @JoinColumn(name = "post_postID"),
-            inverseJoinColumns = @JoinColumn(name = "user_like_user_likeID"))
+            joinColumns = @JoinColumn(name = "post_id_post"),
+            inverseJoinColumns = @JoinColumn(name = "user_like_id_user_like"))
     private Set<UserLike> userLikes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "postPostid")
+    @OneToMany(mappedBy = "postIdPost")
     private Set<Comment> comments = new LinkedHashSet<>();
 
     public Integer getId() {
@@ -40,12 +41,12 @@ public class Post {
         this.id = id;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

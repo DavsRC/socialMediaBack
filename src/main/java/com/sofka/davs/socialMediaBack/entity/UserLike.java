@@ -8,7 +8,8 @@ import java.util.Set;
 @Table(name = "user_like")
 public class UserLike {
     @Id
-    @Column(name = "user_likeID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user_like", nullable = false)
     private Integer id;
 
     @Column(name = "user_name", nullable = false, length = 50)
@@ -18,15 +19,15 @@ public class UserLike {
     private String dni;
 
     @ManyToMany
-    @JoinTable(name = "user_like_has_comment",
-            joinColumns = @JoinColumn(name = "user_like_user_likeID"),
-            inverseJoinColumns = @JoinColumn(name = "comment_commentID"))
+    @JoinTable(name = "comment_has_user_like",
+            joinColumns = @JoinColumn(name = "user_like_id_user_like"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id_comments"))
     private Set<Comment> comments = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(name = "user_like_has_post",
-            joinColumns = @JoinColumn(name = "user_like_user_likeID"),
-            inverseJoinColumns = @JoinColumn(name = "post_postID"))
+            joinColumns = @JoinColumn(name = "user_like_id_user_like"),
+            inverseJoinColumns = @JoinColumn(name = "post_id_post"))
     private Set<Post> posts = new LinkedHashSet<>();
 
     public Integer getId() {

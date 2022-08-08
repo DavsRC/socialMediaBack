@@ -8,7 +8,8 @@ import java.util.Set;
 @Table(name = "comment")
 public class Comment {
     @Id
-    @Column(name = "commentID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_comments", nullable = false)
     private Integer id;
 
     @Column(name = "content", nullable = false)
@@ -21,13 +22,13 @@ public class Comment {
     private Integer likes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "post_postID", nullable = false)
-    private Post postPostid;
+    @JoinColumn(name = "post_id_post", nullable = false)
+    private Post postIdPost;
 
     @ManyToMany
-    @JoinTable(name = "user_like_has_comment",
-            joinColumns = @JoinColumn(name = "comment_commentID"),
-            inverseJoinColumns = @JoinColumn(name = "user_like_user_likeID"))
+    @JoinTable(name = "comment_has_user_like",
+            joinColumns = @JoinColumn(name = "comment_id_comments"),
+            inverseJoinColumns = @JoinColumn(name = "user_like_id_user_like"))
     private Set<UserLike> userLikes = new LinkedHashSet<>();
 
     public Integer getId() {
@@ -62,12 +63,12 @@ public class Comment {
         this.likes = likes;
     }
 
-    public Post getPostPostid() {
-        return postPostid;
+    public Post getPostIdPost() {
+        return postIdPost;
     }
 
-    public void setPostPostid(Post postPostid) {
-        this.postPostid = postPostid;
+    public void setPostIdPost(Post postIdPost) {
+        this.postIdPost = postIdPost;
     }
 
     public Set<UserLike> getUserLikes() {
