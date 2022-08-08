@@ -1,5 +1,7 @@
 package com.sofka.davs.socialMediaBack.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -19,12 +21,14 @@ public class UserLike {
     private String dni;
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(name = "comment_has_user_like",
             joinColumns = @JoinColumn(name = "user_like_id_user_like"),
             inverseJoinColumns = @JoinColumn(name = "comment_id_comments"))
     private Set<Comment> comments = new LinkedHashSet<>();
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(name = "user_like_has_post",
             joinColumns = @JoinColumn(name = "user_like_id_user_like"),
             inverseJoinColumns = @JoinColumn(name = "post_id_post"))
