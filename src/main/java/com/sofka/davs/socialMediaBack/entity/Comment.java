@@ -1,86 +1,46 @@
 package com.sofka.davs.socialMediaBack.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "comment")
+@RequiredArgsConstructor
+@Data
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_comments", nullable = false)
     private Integer id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, length = 45)
     private String content;
 
-    @Column(name = "number_of_likes", nullable = false, length = 45)
+    @Column(name = "number_of_likes", length = 45)
     private String numberOfLikes;
 
-    @Column(name = "likes", nullable = false)
-    private Integer likes;
+
+    @JsonBackReference
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+
     @JoinColumn(name = "post_id_post", nullable = false)
-    @JsonBackReference
     private Post postIdPost;
 
     @ManyToMany
-    @JsonBackReference
     @JoinTable(name = "comment_has_user_like",
             joinColumns = @JoinColumn(name = "comment_id_comments"),
-            inverseJoinColumns = @JoinColumn(name = "user_like_id_user_like"))
-    private Set<UserLike> userLikes = new LinkedHashSet<>();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getNumberOfLikes() {
-        return numberOfLikes;
-    }
-
-    public void setNumberOfLikes(String numberOfLikes) {
-        this.numberOfLikes = numberOfLikes;
-    }
-
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
-    public Post getPostIdPost() {
-        return postIdPost;
-    }
-
-    public void setPostIdPost(Post postIdPost) {
-        this.postIdPost = postIdPost;
-    }
-
-    public Set<UserLike> getUserLikes() {
-        return userLikes;
-    }
-
-    public void setUserLikes(Set<UserLike> userLikes) {
-        this.userLikes = userLikes;
-    }
+            inverseJoinColumns = @JoinColumn(name = "user_like_iduser_like"))
+    private List<UserLike> userLikes = new ArrayList<>();
 
 }

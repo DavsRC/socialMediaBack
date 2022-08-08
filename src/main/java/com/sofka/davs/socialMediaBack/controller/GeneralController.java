@@ -1,9 +1,11 @@
 package com.sofka.davs.socialMediaBack.controller;
 
 
-import com.sofka.davs.socialMediaBack.dto.PostDto;
-import com.sofka.davs.socialMediaBack.service.PostService;
-import com.sofka.davs.socialMediaBack.service.UserLikeService;
+import com.sofka.davs.socialMediaBack.dto.PostDTO;
+import com.sofka.davs.socialMediaBack.entity.Post;
+import com.sofka.davs.socialMediaBack.service.CommentServicempl;
+import com.sofka.davs.socialMediaBack.service.PostServicempl;
+import com.sofka.davs.socialMediaBack.service.UserLikeServicempl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,36 +17,31 @@ import java.util.List;
 public class GeneralController {
 
     @Autowired
-    private PostService postService;
+    private PostServicempl postServicempl;
 
     @Autowired
-    private UserLikeService userLikeService;
+    private CommentServicempl commentServicempl;
+
+    @Autowired
+    private UserLikeServicempl userLikeServicempl;
 
     @GetMapping("get/all/posts")
-    private List<PostDto> findAllPosts(){
-        return postService.findAllPost();
+    public List<PostDTO> getAllPost(){
+        return postServicempl.findAllPost();
     }
 
     @PostMapping("save/posts")
-    public PostDto createPost(@RequestBody PostDto postDto){
-        return postService.createPost(postDto);
+    public PostDTO createPost(@RequestBody PostDTO postDTO){
+        return postServicempl.createPost(postDTO);
     }
 
     @PutMapping("update/{id}")
-    public PostDto updatePost(@RequestBody PostDto postDto){
-        try{
-            return postService.updatePost(postDto);
-        }catch (IllegalStateException illegalStateException){
-            return null;
-        }
+    public PostDTO editPost(@RequestBody PostDTO postDTO){
+        return postServicempl.updatePost(postDTO);
     }
 
-    @DeleteMapping("update/{id}")
-    public void deletePost(@RequestBody PostDto postDto){
-        try{
-            postService.deletePost(postDto.getId());
-        }catch (RuntimeException runtimeException){
-            System.out.println("The post doesn\'t exists");
-        }
+    @DeleteMapping("delete/{id}")
+    public void deletePost(@PathVariable Integer id){
+        postServicempl.deletePost(id);
     }
 }

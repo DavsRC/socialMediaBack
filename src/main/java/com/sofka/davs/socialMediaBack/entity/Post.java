@@ -2,14 +2,22 @@ package com.sofka.davs.socialMediaBack.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "post")
+@RequiredArgsConstructor
+@Data
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_post", nullable = false)
@@ -18,80 +26,22 @@ public class Post {
     @Column(name = "title", nullable = false, length = 45)
     private String title;
 
-    @Column(name = "content", nullable = false, length = 45)
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "number_of_likes", nullable = false)
+    @Column(name = "number_of_likes")
     private Integer numberOfLikes;
 
-    @Column(name = "likes", nullable = false)
-    private Integer likes;
 
-    @ManyToMany
-    @JsonBackReference
-    @JoinTable(name = "user_like_has_post",
-            joinColumns = @JoinColumn(name = "post_id_post"),
-            inverseJoinColumns = @JoinColumn(name = "user_like_id_user_like"))
-    private Set<UserLike> userLikes = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "postIdPost")
     @JsonManagedReference
-    private Set<Comment> comments = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "postIdPost")
+    private List<Comment> comments = new ArrayList<>();
 
-    public Integer getId() {
-        return id;
-    }
+    @JoinTable(name = "post_has_user_like",
+            joinColumns = @JoinColumn(name = "post_id_post"),
+            inverseJoinColumns = @JoinColumn(name = "user_like_iduser_like"))
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserLike> userLikes = new ArrayList<>();
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getNumberOfLikes() {
-        return numberOfLikes;
-    }
-
-    public void setNumberOfLikes(Integer numberOfLikes) {
-        this.numberOfLikes = numberOfLikes;
-    }
-
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
-    public Set<UserLike> getUserLikes() {
-        return userLikes;
-    }
-
-    public void setUserLikes(Set<UserLike> userLikes) {
-        this.userLikes = userLikes;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
 
 }

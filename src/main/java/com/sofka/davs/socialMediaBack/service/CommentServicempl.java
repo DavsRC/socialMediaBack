@@ -1,42 +1,58 @@
 package com.sofka.davs.socialMediaBack.service;
 
-import com.sofka.davs.socialMediaBack.dto.CommentDto;
+import com.sofka.davs.socialMediaBack.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.dto.CustomMapper;
+import com.sofka.davs.socialMediaBack.entity.Comment;
 import com.sofka.davs.socialMediaBack.repository.CommentRepository;
+import com.sofka.davs.socialMediaBack.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServicempl implements CommentService{
 
     @Autowired
-    private CustomMapper mapper;
-
-    @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private CustomMapper customMapper;
+
+    @Autowired
+    private UserLikeService userLikeService;
+
     @Override
-    public CommentDto createComment(CommentDto commentDto) {
-        return mapper
-                .fromEntityToCommentDto(commentRepository
-                        .save(mapper.fromCommentDtoToEntity(commentDto)));
+    public CommentDTO createComment(CommentDTO commentDTO) {
+        return customMapper
+                .convertCommentToDto(commentRepository.save(customMapper.commentDtoToEntity(commentDTO)));
+
     }
 
     @Override
-    public CommentDto updateComment(CommentDto commentDto) {
+    public List<CommentDTO> findAllComments() {
+        return null;
+    }
 
-        var commentOptional= commentRepository.findById(commentDto.getId());
-        if(commentOptional.isPresent()){
-            var commentUpdated= commentRepository.save(mapper.fromCommentDtoToEntity(commentDto));
-            var commentUpdatedDto =mapper.fromEntityToCommentDto(commentUpdated);
-            return commentUpdatedDto;
+    @Override
+    public CommentDTO updateComment(CommentDTO commentDto) {
+        Optional targetComment = commentRepository.findById(commentDto.getId());
+        if(targetComment.isPresent()){
+            Comment commentEdited = commentRepository.save(customMapper.commentDtoToEntity(commentDto));
+            var commentEditedDTO = customMapper.convertCommentToDto(commentEdited);
+            return commentEditedDTO;
         }
-
-        throw new IllegalStateException("ERROR the commentary don´t exist");
+        throw new IllegalStateException("The comment doesn't exist");
     }
 
     @Override
-    public void deteleComment(Integer id) {
-        commentRepository.deleteById(id);
+    public void deleteComment(Comment comment) {
+        commentRepository.deleteById(comment.getId());
     }
+
 }

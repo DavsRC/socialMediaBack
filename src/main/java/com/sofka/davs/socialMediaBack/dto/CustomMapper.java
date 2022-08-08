@@ -5,88 +5,68 @@ import com.sofka.davs.socialMediaBack.entity.Post;
 import com.sofka.davs.socialMediaBack.entity.UserLike;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class CustomMapper {
 
-    public Comment fromCommentDtoToEntity(CommentDto dto){
-        var comment = new Comment();
-        comment.setId(dto.getId());
-        comment.setContent(dto.getContent());
-        comment.setNumberOfLikes(dto.getNumberOfLikes());
-        comment.setUserLikes(dto.getUserLikes());
-        comment.setPostIdPost(dto.getPostIdPost());
-        return comment;
+
+    public PostDTO convertPostToDto(Post post){
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(post.getId());
+        postDTO.setTitle(post.getTitle());
+        postDTO.setContent(post.getContent());
+        postDTO.setNumberOfLikes(post.getNumberOfLikes());
+        postDTO.setUserLikes(post.getUserLikes().stream().map(this::convertUserLikeToDto).collect(Collectors.toList()));
+        postDTO.setComments(post.getComments().stream().map(this::convertCommentToDto).collect(Collectors.toList()));
+        return postDTO;
     }
 
-    public CommentDto fromEntityToCommentDto(Comment entity){
-        var commentDto = new CommentDto();
-        commentDto.setId(entity.getId());
-        commentDto.setContent(entity.getContent());
-        commentDto.setNumberOfLikes(entity.getNumberOfLikes());
-        commentDto.setUserLikes(entity.getUserLikes());
-        commentDto.setPostIdPost(entity.getPostIdPost());
-        return commentDto;
-    }
-
-    public Post fromPostDtoToEntity(PostDto dto){
-        var post = new Post();
-        post.setId(dto.getId());
-        post.setTitle(dto.getTitle());
-        post.setContent(dto.getContent());
-        post.setNumberOfLikes(dto.getNumberOfLikes());
-        post.setUserLikes(dto.getUserLikes());
-        post.setComments(dto.getComments());
+    public  Post dtoMapper(PostDTO postDTO){
+        Post post = new Post();
+        post.setId(postDTO.getId());
+        post.setTitle(postDTO.getTitle());
+        post.setContent(postDTO.getContent());
+        post.setNumberOfLikes(postDTO.getNumberOfLikes());
+        post.setUserLikes(postDTO.getUserLikes().stream().map(this::userLikeDtoMapper).collect(Collectors.toList()));
+        post.setComments(postDTO.getComments().stream().map(this::commentDtoToEntity).collect(Collectors.toList()));
         return post;
     }
 
-    public PostDto fromEntityToPostDto (Post entity){
-        var postDto = new PostDto();
-        postDto.setId(entity.getId());
-        postDto.setTitle(entity.getTitle());
-        postDto.setContent(entity.getContent());
-        postDto.setNumberOfLikes(entity.getNumberOfLikes());
-        postDto.setUserLikes(entity.getUserLikes());
-        postDto.setComments(entity.getComments());
-        return postDto;
+    public CommentDTO convertCommentToDto(Comment comment){
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(comment.getId());
+        commentDTO.setContent(comment.getContent());
+        commentDTO.setNumberOfLikes(comment.getNumberOfLikes());
+        commentDTO.setUserLikes(comment.getUserLikes().stream().map(this::convertUserLikeToDto).collect(Collectors.toList()));
+        return commentDTO;
+    }
+    public Comment commentDtoToEntity(CommentDTO commentDTO){
+        Comment comment = new Comment();
+        comment.setId(commentDTO.getId());
+        comment.setContent(commentDTO.getContent());
+        comment.setPostIdPost(commentDTO.getPostIdPost());
+        comment.setNumberOfLikes(commentDTO.getNumberOfLikes());
+        comment.setUserLikes(commentDTO.getUserLikes().stream().map(this::userLikeDtoMapper).collect(Collectors.toList()));
+        return comment;
     }
 
-    public UserLike FromUserLikeDtoToEntity(UserLikeDto dto){
-        var userLike = new UserLike();
-        userLike.setId(dto.getId());
-        userLike.setDni(dto.getDni());
-        userLike.setUserName(dto.getUserName());
-        userLike.setPosts(dto.getPosts());
-        userLike.setComments(dto.getComments());
+    public UserLikeDTO convertUserLikeToDto(UserLike userLike){
+        UserLikeDTO userLikeDTO = new UserLikeDTO();
+        userLikeDTO.setId(userLike.getId());
+        userLikeDTO.setUserName(userLike.getUserName());
+        userLikeDTO.setDni(userLike.getDni());
+        userLikeDTO.setComments(userLikeDTO.getComments());
+        userLikeDTO.setPosts(userLikeDTO.getPosts());
+        return userLikeDTO;
+    }
+
+    public UserLike userLikeDtoMapper(UserLikeDTO userLikeDTO){
+        UserLike userLike = new UserLike();
+        userLike.setId(userLikeDTO.getId());
+        userLike.setUserName(userLikeDTO.getUserName());
+        userLike.setDni(userLike.getDni());
         return userLike;
     }
 
-    public UserLikeDto fromEntitytoUserLikeDto (UserLike entity){
-        var userLikeDto = new UserLikeDto();
-        userLikeDto.setId(entity.getId());
-        userLikeDto.setDni(entity.getDni());
-        userLikeDto.setUserName(entity.getUserName());
-        userLikeDto.setPosts(entity.getPosts());
-        userLikeDto.setComments(entity.getComments());
-        return userLikeDto;
-    }
-
-    public PostDto updateExistingPost(Post oldPost, PostDto newPost) {
-        var newPostTitle = newPost.getTitle();
-        var newPostContent = newPost.getContent();
-        var newPostNumberOfLikes = newPost.getNumberOfLikes();
-
-        if (newPostTitle != null) {
-            oldPost.setTitle(newPostTitle);
-        }
-
-        if (newPostContent != null) {
-            oldPost.setContent(newPostContent);
-        }
-
-        if (newPostNumberOfLikes != null) {
-            oldPost.setNumberOfLikes(newPostNumberOfLikes);
-        }
-
-        return newPost;
-    }
 }

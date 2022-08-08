@@ -1,15 +1,15 @@
 package com.sofka.davs.socialMediaBack.service;
 
-import com.sofka.davs.socialMediaBack.dto.UserLikeDto;
+import com.sofka.davs.socialMediaBack.dto.UserLikeDTO;
 
 public interface UserLikeService {
-    UserLikeDto createUser (UserLikeDto UserLike);
+    UserLikeDTO createUser (UserLikeDTO UserLike);
 
-    UserLikeDto findUser(UserLikeDto UserLike);
+    UserLikeDTO findUser(UserLikeDTO UserLike);
 
-    UserLikeDto createLike();
+    UserLikeDTO createLike();
 
-    UserLikeDto deleteLike();
+    UserLikeDTO deleteLike();
 
     void deleteUserLike(Integer id);
 }

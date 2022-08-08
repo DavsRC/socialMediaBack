@@ -1,14 +1,19 @@
 package com.sofka.davs.socialMediaBack.service;
 
-import com.sofka.davs.socialMediaBack.dto.CommentDto;
+import com.sofka.davs.socialMediaBack.dto.CommentDTO;
+import com.sofka.davs.socialMediaBack.entity.Comment;
+
+import java.util.List;
 
 
 public interface CommentService {
 
-    CommentDto createComment(CommentDto commentDto);
+    CommentDTO createComment (CommentDTO commentDto);
 
-    CommentDto updateComment(CommentDto commentDto);
+    List<CommentDTO> findAllComments ();
 
-    void deteleComment(Integer id);
+    CommentDTO updateComment(CommentDTO commentDto);
+
+    void deleteComment(Comment comment);
 
 }
