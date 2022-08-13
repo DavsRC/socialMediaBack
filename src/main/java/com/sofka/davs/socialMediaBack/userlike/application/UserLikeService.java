@@ -3,9 +3,12 @@ package com.sofka.davs.socialMediaBack.userlike.application;
 import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 import com.sofka.davs.socialMediaBack.userlike.domain.UserLikeRepository;
 import com.sofka.davs.socialMediaBack.userlike.infrastructure.mysql.MySqlUserLikeRepository;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.mapper.UserLikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -15,44 +18,45 @@ public class UserLikeService implements UserLikeRepository {
     @Autowired
     MySqlUserLikeRepository mySqlUserLikeRepository;
 
+    @Autowired
+    UserLikeMapper userLikeMapper;
+
     @Override
-    public UserLike saveUserLike(UserLike userLike) {
-        return mySqlUserLikeRepository.save(userLike);
+    public UserLikeDTO saveUserLike(UserLikeDTO userLikeDTO) {
+        UserLike userLike = userLikeMapper.convertDtoToUserLike(userLikeDTO);
+        mySqlUserLikeRepository.save(userLike);
+        return userLikeDTO;
     }
 
     @Override
-    public UserLike findUserLikeById(Integer userLikeId) {
-        Optional<UserLike> userLikeOptional = mySqlUserLikeRepository.findById(userLikeId);
-        if(userLikeOptional.isEmpty()){
-            throw new NoSuchElementException("It doesn't exist the user like with id: " + userLikeId);
+    public UserLikeDTO findUserLikeById(Integer userLikeId) {
+        Optional<UserLike> commentOptional = mySqlUserLikeRepository.findById(userLikeId);
+        if(commentOptional.isEmpty()){
+            throw new NoSuchElementException("It doesn't exist the userLikeId with id: " + userLikeId);
         }
-        return userLikeOptional.get();
+        return userLikeMapper.convertUserLikeToDTo(commentOptional.get());
     }
 
     @Override
-    public Iterable<UserLike> findAllUserLike() {
-        return mySqlUserLikeRepository.findAll();
+    public Iterable<UserLikeDTO> findAllUserLike() {
+        List<UserLike> userLikeList = mySqlUserLikeRepository.findAll();
+        return userLikeList.stream().map(userLike -> userLikeMapper.convertUserLikeToDTo(userLike)).toList();
     }
 
     @Override
-    public UserLike updateUserLike(Integer userLikeId, UserLike userLike) {
-        UserLike userLikeFound =  findUserLikeById(userLikeId);
-        userLikeFound.setDni(userLike.getDni());
-        userLikeFound.setName(userLike.getName());
-        return mySqlUserLikeRepository.save(userLikeFound);
+    public UserLikeDTO updateUserLike(Integer userLikeId, UserLikeDTO userLikeDTO) {
+        UserLikeDTO userLikeDTOFound = findUserLikeById(userLikeId);
+        userLikeDTOFound.setDni(userLikeDTO.getDni());
+        userLikeDTOFound.setName(userLikeDTO.getName());
+        UserLike userLike = userLikeMapper.convertDtoToUserLike(userLikeDTOFound);
+        mySqlUserLikeRepository.save(userLike);
+        return userLikeDTOFound;
     }
 
     @Override
     public void deleteUserLike(Integer userLikeId) {
-        UserLike userLikeDeleted =  findUserLikeById(userLikeId);
-        mySqlUserLikeRepository.delete(userLikeDeleted);
-    }
-
-    public UserLike getUserLikeById(Integer id) {
-        Optional<UserLike> userLikeOptional = mySqlUserLikeRepository.findById(id);
-        if (userLikeOptional.isEmpty()) {
-            throw new NoSuchElementException("It doesn't exist the UserLike with id: " + id);
-        }
-        return userLikeOptional.get();
+        UserLikeDTO userLikeDTODeleted =  findUserLikeById(userLikeId);
+        UserLike userLike = userLikeMapper.convertDtoToUserLike(userLikeDTODeleted);
+        mySqlUserLikeRepository.delete(userLike);
     }
 }

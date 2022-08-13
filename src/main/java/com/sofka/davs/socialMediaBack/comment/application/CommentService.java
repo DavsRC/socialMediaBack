@@ -23,6 +23,10 @@ public class CommentService implements CommentRepository {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    public CommentService() {
+    }
+
     @Override
     public CommentDTO saveComment(CommentDTO commentDTO){
         Comment comment = commentMapper.convertDtoToComment(commentDTO);
@@ -60,10 +64,5 @@ public class CommentService implements CommentRepository {
         CommentDTO commentDeleted =  findCommentById(commentId);
         Comment comment = commentMapper.convertDtoToComment(commentDeleted);
         mySqlCommentRepository.delete(comment);
-    }
-
-    @Override
-    public CommentDTO assignCommentToPost() {
-        return null;
     }
 }

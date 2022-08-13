@@ -1,7 +1,6 @@
 package com.sofka.davs.socialMediaBack.post.domain;
 
 
-import com.sofka.davs.socialMediaBack.comment.domain.Comment;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller.dto.PostDTO;
 import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;

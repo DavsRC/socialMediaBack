@@ -9,5 +9,4 @@ public interface CommentRepository {
     Iterable<CommentDTO> findAllComments();
     CommentDTO updateComment(Integer commentId, CommentDTO commentDTO);
     void deleteComment(Integer commentId);
-    CommentDTO assignCommentToPost();
 }
