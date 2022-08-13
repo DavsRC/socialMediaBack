@@ -1,6 +1,5 @@
 package com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller;
 
-import com.sofka.davs.socialMediaBack.comment.domain.Comment;
 import com.sofka.davs.socialMediaBack.comment.application.CommentService;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
 import org.springframework.beans.factory.annotation.Autowired;

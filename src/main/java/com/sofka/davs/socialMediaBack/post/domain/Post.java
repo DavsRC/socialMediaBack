@@ -31,7 +31,7 @@ public class Post {
     private Integer number_of_likes;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(

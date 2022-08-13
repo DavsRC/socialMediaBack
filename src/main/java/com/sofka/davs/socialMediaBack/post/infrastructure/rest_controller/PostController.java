@@ -1,9 +1,11 @@
 package com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller;
 
-import com.sofka.davs.socialMediaBack.comment.domain.Comment;
-import com.sofka.davs.socialMediaBack.post.domain.Post;
+import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.post.application.PostService;
+import com.sofka.davs.socialMediaBack.post.domain.Post;
+import com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller.dto.PostDTO;
 import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,33 +19,33 @@ public class PostController {
     PostService postService;
 
     @PostMapping("/save")
-    public ResponseEntity<Post> addPost(@RequestBody Post post) {
-        return new ResponseEntity<Post>(postService.savePost(post), HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO postDTO) {
+        return new ResponseEntity<PostDTO>(postService.savePost(postDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/findAll")
-    public Iterable<Post> getAllPosts(){
+    public Iterable<PostDTO> getAllPosts(){
         return postService.findAllPosts();
     }
 
     @GetMapping("/findById/{postId}")
-    public ResponseEntity<Post> getCommentById(@PathVariable Integer postId) {
-        return new ResponseEntity<Post>(postService.findPostById(postId), HttpStatus.OK);
+    public ResponseEntity<PostDTO> getCommentById(@PathVariable Integer postId) {
+        return new ResponseEntity<PostDTO>(postService.findPostById(postId), HttpStatus.OK);
     }
 
     @PutMapping("/assignPost/{postId}")
-    public ResponseEntity<Post> assignUserLikeToPost(@PathVariable Integer postId, @RequestBody UserLike userLike) {
-        return new ResponseEntity<Post>(postService.assignUserLike(postId, userLike), HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> assignUserLikeToPost(@PathVariable Integer postId, @RequestBody UserLikeDTO userLike) {
+        return new ResponseEntity<PostDTO>(postService.assignUserLike(postId, userLike), HttpStatus.CREATED);
     }
 
     @PutMapping("/assignComment/{postId}")
-    public ResponseEntity<Post> assignCommentToPost(@PathVariable Integer postId, @RequestBody Comment comment) {
-        return new ResponseEntity<Post>(postService.assignComment(postId, comment), HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> assignCommentToPost(@PathVariable Integer postId, @RequestBody CommentDTO commentDTO) {
+        return new ResponseEntity<PostDTO>(postService.assignComment(postId, commentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{postId}")
-    public ResponseEntity<Post> updatePost(@PathVariable Integer postId, @RequestBody Post post) {
-        return new ResponseEntity<Post>(postService.updatePost(postId, post), HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> updatePost(@PathVariable Integer postId, @RequestBody PostDTO postDTO) {
+        return new ResponseEntity<PostDTO>(postService.updatePost(postId, postDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{postId}")

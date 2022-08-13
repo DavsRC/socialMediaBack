@@ -36,8 +36,7 @@ public class CommentService implements CommentRepository {
         if(commentOptional.isEmpty()){
             throw new NoSuchElementException("It doesn't exist the comment with id: " + commentId);
         }
-         CommentDTO commentDTO = commentMapper.convertCommentToDTO(commentOptional.get());
-        return commentDTO;
+        return commentMapper.convertCommentToDTO(commentOptional.get());
     }
 
     @Override
@@ -61,5 +60,10 @@ public class CommentService implements CommentRepository {
         CommentDTO commentDeleted =  findCommentById(commentId);
         Comment comment = commentMapper.convertDtoToComment(commentDeleted);
         mySqlCommentRepository.delete(comment);
+    }
+
+    @Override
+    public CommentDTO assignCommentToPost() {
+        return null;
     }
 }

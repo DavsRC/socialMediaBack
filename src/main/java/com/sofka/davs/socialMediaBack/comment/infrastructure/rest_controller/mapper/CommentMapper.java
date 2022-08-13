@@ -14,7 +14,6 @@ public class CommentMapper {
         commentDTO.setNumber_of_likes(comment.getNumber_of_likes());
         return commentDTO;
     }
-
     public Comment convertDtoToComment(CommentDTO commentDTO){
         Comment comment = new Comment();
         comment.setId(commentDTO.getId());
