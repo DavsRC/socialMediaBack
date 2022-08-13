@@ -11,5 +11,6 @@ public interface PostRepository {
     Iterable<Post> findAllPosts();
     Post assignUserLike(Integer postId, UserLike userLike);
     Post assignComment(Integer postId, Comment comment);
+    Post updatePost(Integer postId, Post post);
 
 }
