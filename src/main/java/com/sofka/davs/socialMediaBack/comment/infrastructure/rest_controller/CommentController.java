@@ -1,8 +1,7 @@
-package com.sofka.davs.socialMediaBack.comment.infrastructure.controller;
+package com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller;
 
 import com.sofka.davs.socialMediaBack.comment.domain.Comment;
-import com.sofka.davs.socialMediaBack.comment.infrastructure.mysql.CommentService;
-import com.sofka.davs.socialMediaBack.post.domain.Post;
+import com.sofka.davs.socialMediaBack.comment.application.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.sofka.davs.socialMediaBack.post.domain;
 
 
 import com.sofka.davs.socialMediaBack.comment.domain.Comment;
-import com.sofka.davs.socialMediaBack.userlike.UserLike;
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 
 public interface PostRepository {
 

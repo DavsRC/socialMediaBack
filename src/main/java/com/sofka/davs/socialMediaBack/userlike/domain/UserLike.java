@@ -1,4 +1,4 @@
-package com.sofka.davs.socialMediaBack.userlike;
+package com.sofka.davs.socialMediaBack.userlike.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sofka.davs.socialMediaBack.post.domain.Post;

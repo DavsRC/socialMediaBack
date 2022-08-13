@@ -1,5 +1,6 @@
-package com.sofka.davs.socialMediaBack.userlike;
+package com.sofka.davs.socialMediaBack.userlike.infrastructure.mysql;
 
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

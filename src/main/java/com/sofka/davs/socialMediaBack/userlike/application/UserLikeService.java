@@ -1,7 +1,8 @@
-package com.sofka.davs.socialMediaBack.userlike;
+package com.sofka.davs.socialMediaBack.userlike.application;
 
-import com.sofka.davs.socialMediaBack.comment.domain.Comment;
-import com.sofka.davs.socialMediaBack.post.infrastructure.mysql.MySqlPostRepository;
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLikeRepository;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.mysql.MySqlUserLikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserLikeService implements UserLikeRepository{
+public class UserLikeService implements UserLikeRepository {
 
     @Autowired
     MySqlUserLikeRepository mySqlUserLikeRepository;

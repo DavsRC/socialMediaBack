@@ -1,7 +1,7 @@
-package com.sofka.davs.socialMediaBack.userlike;
+package com.sofka.davs.socialMediaBack.userlike.domain;
 
 
-import com.sofka.davs.socialMediaBack.comment.domain.Comment;
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 
 public interface UserLikeRepository {
 
