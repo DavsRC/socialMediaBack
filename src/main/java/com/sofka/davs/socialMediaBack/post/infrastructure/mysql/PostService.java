@@ -61,4 +61,9 @@ public class PostService implements PostRepository {
         return mySqlPostRepository.save(postFound);
     }
 
+    @Override
+    public void deletePost(Integer postId) {
+        Post postDeleted =  findPostById(postId);
+        mySqlPostRepository.delete(postDeleted);
+    }
 }

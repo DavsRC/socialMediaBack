@@ -12,5 +12,6 @@ public interface PostRepository {
     Post assignUserLike(Integer postId, UserLike userLike);
     Post assignComment(Integer postId, Comment comment);
     Post updatePost(Integer postId, Post post);
+    void deletePost(Integer postId);
 
 }
