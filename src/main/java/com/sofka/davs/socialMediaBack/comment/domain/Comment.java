@@ -25,7 +25,7 @@ public class Comment {
 
     private Integer number_of_likes;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     @JsonBackReference
     private Post post;

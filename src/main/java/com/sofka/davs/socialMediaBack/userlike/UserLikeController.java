@@ -27,10 +27,4 @@ public class UserLikeController {
     public ResponseEntity<UserLike> getUserLikeById(@PathVariable Integer userLikeId) {
         return new ResponseEntity<UserLike>(userLikeService.findUserLikeById(userLikeId), HttpStatus.OK);
     }
-
-    @PutMapping("/assignPost/{id}")
-    public ResponseEntity<UserLike> assignPost(@PathVariable Integer userLikeId){
-        return  new ResponseEntity<UserLike>(userLikeService.assignPostToUserLike(userLikeId), HttpStatus.OK);
-    }
-
 }

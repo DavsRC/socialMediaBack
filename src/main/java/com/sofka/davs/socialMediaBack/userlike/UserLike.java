@@ -1,5 +1,6 @@
 package com.sofka.davs.socialMediaBack.userlike;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sofka.davs.socialMediaBack.post.domain.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class UserLike {
     private String dni;
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(
             name="post_user_likes",
             joinColumns = @JoinColumn(name = "user_like_id"),

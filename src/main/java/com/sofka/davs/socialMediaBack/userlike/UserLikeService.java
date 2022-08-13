@@ -1,6 +1,5 @@
 package com.sofka.davs.socialMediaBack.userlike;
 
-import com.sofka.davs.socialMediaBack.post.domain.Post;
 import com.sofka.davs.socialMediaBack.post.infrastructure.mysql.MySqlPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,14 +30,6 @@ public class UserLikeService implements UserLikeRepository{
     public Iterable<UserLike> findAllUserLike() {
         return mySqlUserLikeRepository.findAll();
     }
-
-    @Override
-    public UserLike assignPostToUserLike(Integer id) {
-        Post post = mySqlPostRepository.findById(id).get();
-
-        return mySqlUserLikeRepository.findById(id).get();
-    }
-
     public UserLike getUserLikeById(Integer id) {
         Optional<UserLike> userLikeOptional = mySqlUserLikeRepository.findById(id);
         if (userLikeOptional.isEmpty()) {

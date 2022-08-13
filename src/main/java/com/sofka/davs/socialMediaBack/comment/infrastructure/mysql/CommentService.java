@@ -2,7 +2,6 @@ package com.sofka.davs.socialMediaBack.comment.infrastructure.mysql;
 
 import com.sofka.davs.socialMediaBack.comment.domain.Comment;
 import com.sofka.davs.socialMediaBack.comment.domain.CommentRepository;
-import com.sofka.davs.socialMediaBack.post.domain.Post;
 import com.sofka.davs.socialMediaBack.post.infrastructure.mysql.MySqlPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -7,5 +7,4 @@ public interface UserLikeRepository {
     UserLike findUserLikeById(Integer userLikeId);
     Iterable<UserLike> findAllUserLike();
 
-    UserLike assignPostToUserLike(Integer id);
 }

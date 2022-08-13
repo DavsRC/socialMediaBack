@@ -2,13 +2,10 @@ package com.sofka.davs.socialMediaBack.comment.infrastructure.controller;
 
 import com.sofka.davs.socialMediaBack.comment.domain.Comment;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.mysql.CommentService;
-import com.sofka.davs.socialMediaBack.comment.infrastructure.mysql.MySqlCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/comment")
