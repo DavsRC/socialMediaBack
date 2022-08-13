@@ -5,7 +5,6 @@ import com.sofka.davs.socialMediaBack.comment.domain.CommentRepository;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.mysql.MySqlCommentRepository;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.mapper.CommentMapper;
-import com.sofka.davs.socialMediaBack.post.domain.Post;
 import com.sofka.davs.socialMediaBack.post.infrastructure.mysql.MySqlPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,14 +61,5 @@ public class CommentService implements CommentRepository {
         CommentDTO commentDeleted =  findCommentById(commentId);
         Comment comment = commentMapper.convertDtoToComment(commentDeleted);
         mySqlCommentRepository.delete(comment);
-    }
-
-    @Override
-    public Post findPostById(Integer postId) {
-        Optional<Post> postOptional = mySqlPostRepository.findById(postId);
-        if(postOptional.isEmpty()){
-            throw new NoSuchElementException("It doesn't exist the post with id: " + postId);
-        }
-        return postOptional.get();
     }
 }
