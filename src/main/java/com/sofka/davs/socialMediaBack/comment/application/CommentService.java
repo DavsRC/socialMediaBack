@@ -3,11 +3,14 @@ package com.sofka.davs.socialMediaBack.comment.application;
 import com.sofka.davs.socialMediaBack.comment.domain.Comment;
 import com.sofka.davs.socialMediaBack.comment.domain.CommentRepository;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.mysql.MySqlCommentRepository;
+import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
+import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.mapper.CommentMapper;
 import com.sofka.davs.socialMediaBack.post.domain.Post;
 import com.sofka.davs.socialMediaBack.post.infrastructure.mysql.MySqlPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -16,37 +19,57 @@ public class CommentService implements CommentRepository {
 
     @Autowired
     private MySqlCommentRepository mySqlCommentRepository;
+    @Autowired
+    private MySqlPostRepository mySqlPostRepository;
+
+    @Autowired
+    private CommentMapper commentMapper;
     @Override
-    public Comment saveComment(Comment comment){
-        return mySqlCommentRepository.save(comment);
+    public CommentDTO saveComment(CommentDTO commentDTO){
+        Comment comment = commentMapper.convertDtoToComment(commentDTO);
+        mySqlCommentRepository.save(comment);
+        return commentDTO;
     }
 
     @Override
-    public Comment findCommentById(Integer commentId) {
+    public CommentDTO findCommentById(Integer commentId) {
         Optional<Comment> commentOptional = mySqlCommentRepository.findById(commentId);
         if(commentOptional.isEmpty()){
             throw new NoSuchElementException("It doesn't exist the comment with id: " + commentId);
         }
-        return commentOptional.get();
+         CommentDTO commentDTO = commentMapper.convertCommentToDTO(commentOptional.get());
+        return commentDTO;
     }
 
     @Override
-    public Iterable<Comment> findAllComments() {
-        return mySqlCommentRepository.findAll();
+    public Iterable<CommentDTO> findAllComments() {
+        List<Comment> comments = mySqlCommentRepository.findAll();
+        return comments.stream().map(comment -> commentMapper.convertCommentToDTO(comment)).toList();
     }
 
     @Override
-    public Comment updateComment(Integer commentId, Comment comment) {
-        Comment commentFound =  findCommentById(commentId);
-        commentFound.setContent(comment.getContent());
-        commentFound.setNumber_of_likes(comment.getNumber_of_likes());
-        return mySqlCommentRepository.save(commentFound);
+    public CommentDTO updateComment(Integer commentId, CommentDTO commentDTO) {
+        CommentDTO commentDtoFound =  findCommentById(commentId);
+        commentDtoFound.setContent(commentDTO.getContent());
+        commentDtoFound.setNumber_of_likes(commentDTO.getNumber_of_likes());
+        Comment comment = commentMapper.convertDtoToComment(commentDtoFound);
+        mySqlCommentRepository.save(comment);
+        return commentDtoFound;
     }
 
     @Override
     public void deleteComment(Integer commentId) {
-        Comment commentDeleted =  findCommentById(commentId);
-        mySqlCommentRepository.delete(commentDeleted);
+        CommentDTO commentDeleted =  findCommentById(commentId);
+        Comment comment = commentMapper.convertDtoToComment(commentDeleted);
+        mySqlCommentRepository.delete(comment);
     }
 
+    @Override
+    public Post findPostById(Integer postId) {
+        Optional<Post> postOptional = mySqlPostRepository.findById(postId);
+        if(postOptional.isEmpty()){
+            throw new NoSuchElementException("It doesn't exist the post with id: " + postId);
+        }
+        return postOptional.get();
+    }
 }

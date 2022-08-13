@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class UserLike {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
