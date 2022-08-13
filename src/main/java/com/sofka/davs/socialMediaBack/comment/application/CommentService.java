@@ -6,9 +6,13 @@ import com.sofka.davs.socialMediaBack.comment.infrastructure.mysql.MySqlCommentR
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.mapper.CommentMapper;
 import com.sofka.davs.socialMediaBack.post.infrastructure.mysql.MySqlPostRepository;
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.mapper.UserLikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -23,6 +27,9 @@ public class CommentService implements CommentRepository {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    UserLikeMapper userLikeMapper;
 
     public CommentService() {
     }
@@ -64,5 +71,17 @@ public class CommentService implements CommentRepository {
         CommentDTO commentDeleted =  findCommentById(commentId);
         Comment comment = commentMapper.convertDtoToComment(commentDeleted);
         mySqlCommentRepository.delete(comment);
+    }
+
+    @Override
+    public CommentDTO assignUserLikeToComment(Integer commentId, UserLikeDTO userLikeDTO) {
+        CommentDTO commentDTOFound = findCommentById(commentId);
+        Comment comment = commentMapper.convertDtoToComment(commentDTOFound);
+        UserLike userLike = userLikeMapper.convertDtoToUserLike(userLikeDTO);
+        List<UserLike> userLikeList = new ArrayList<>();
+        userLikeList.add(userLike);
+        comment.setUserLikeList(userLikeList);
+        mySqlCommentRepository.save(comment);
+        return commentMapper.convertCommentToDTO(comment);
     }
 }

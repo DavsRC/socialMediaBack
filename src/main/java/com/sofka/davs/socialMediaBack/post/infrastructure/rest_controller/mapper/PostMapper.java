@@ -34,7 +34,10 @@ public class PostMapper {
                 .stream()
                 .map(commentMapper::convertCommentToDTO)
                 .toList());
-        postDTO.setUserLikeDTOS(post.getUserLikeList().stream().map(PostMapper::getUserLikeDTO).toList());
+        postDTO.setUserLikeDTOS(post.getUserLikeList()
+                .stream()
+                .map(PostMapper::getUserLikeDTO)
+                .toList());
         return postDTO;
     }
 

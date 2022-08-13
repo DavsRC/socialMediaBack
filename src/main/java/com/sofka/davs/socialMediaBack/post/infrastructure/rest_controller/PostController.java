@@ -31,7 +31,7 @@ public class PostController {
         return new ResponseEntity<PostDTO>(postService.findPostById(postId), HttpStatus.OK);
     }
 
-    @PutMapping("/assignPost/{postId}")
+    @PutMapping("/assignUserLike/{postId}")
     public ResponseEntity<PostDTO> assignUserLikeToPost(@PathVariable Integer postId, @RequestBody UserLikeDTO userLike) {
         return new ResponseEntity<PostDTO>(postService.assignUserLike(postId, userLike), HttpStatus.CREATED);
     }

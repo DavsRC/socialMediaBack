@@ -2,6 +2,8 @@ package com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller;
 
 import com.sofka.davs.socialMediaBack.comment.application.CommentService;
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
+import com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller.dto.PostDTO;
+import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,10 @@ public class CommentController {
         return new ResponseEntity<CommentDTO>(commentService.updateComment(commentId, commentDTO), HttpStatus.OK);
     }
 
+    @PutMapping("/assignUserLike/{commentId}")
+    public ResponseEntity<CommentDTO> assignUserLikeToComment(@PathVariable Integer commentId, @RequestBody UserLikeDTO userLikeDTO) {
+        return new ResponseEntity<CommentDTO>(commentService.assignUserLikeToComment(commentId, userLikeDTO), HttpStatus.CREATED);
+    }
     @DeleteMapping("/delete/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Integer commentId) {
         commentService.deleteComment(commentId);
