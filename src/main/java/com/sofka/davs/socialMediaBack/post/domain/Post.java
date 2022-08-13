@@ -1,16 +1,12 @@
 package com.sofka.davs.socialMediaBack.post.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sofka.davs.socialMediaBack.comment.domain.Comment;
-import com.sofka.davs.socialMediaBack.userlike.UserLike;
+import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,7 +21,7 @@ import java.util.List;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
@@ -35,15 +31,13 @@ public class Post {
     private Integer number_of_likes;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
 
-    @ManyToMany
-    @JsonBackReference
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name="post_user_likes",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_like_id")
     )
-
     private List<UserLike> userLikeList = new ArrayList<>();
 }
