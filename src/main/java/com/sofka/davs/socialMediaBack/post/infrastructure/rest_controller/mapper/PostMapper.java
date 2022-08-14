@@ -10,6 +10,9 @@ import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dt
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class PostMapper {
 
@@ -31,7 +34,10 @@ public class PostMapper {
                 .stream()
                 .map(commentMapper::convertCommentToDTO)
                 .toList());
-        postDTO.setUserLikeDTOS(post.getUserLikeList().stream().map(PostMapper::getUserLikeDTO).toList());
+        postDTO.setUserLikeDTOS(post.getUserLikeList()
+                .stream()
+                .map(PostMapper::getUserLikeDTO)
+                .toList());
         return postDTO;
     }
 
@@ -55,16 +61,19 @@ public class PostMapper {
                 .toList());
         post.setUserLikeList(postDTO.getUserLikeDTOS()
                 .stream()
-                .map(PostMapper::getUserLike)
+                .map(userLikeDTO -> getUserLike(userLikeDTO, post))
                 .toList());
         return post;
     }
 
-    private static UserLike getUserLike(UserLikeDTO userLikeDTO) {
+    private static UserLike getUserLike(UserLikeDTO userLikeDTO, Post post) {
         UserLike userLike = new UserLike();
+        List<Post> postList = new ArrayList<>();
         userLike.setId(userLikeDTO.getId());
         userLike.setDni(userLikeDTO.getDni());
         userLike.setName(userLikeDTO.getName());
+        postList.add(post);
+        userLike.setPosts(postList);
         return userLike;
     }
 

@@ -1,7 +1,6 @@
 package com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller.dto;
 
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
-import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;

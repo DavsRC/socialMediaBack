@@ -2,9 +2,7 @@ package com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller;
 
 import com.sofka.davs.socialMediaBack.comment.infrastructure.rest_controller.dto.CommentDTO;
 import com.sofka.davs.socialMediaBack.post.application.PostService;
-import com.sofka.davs.socialMediaBack.post.domain.Post;
 import com.sofka.davs.socialMediaBack.post.infrastructure.rest_controller.dto.PostDTO;
-import com.sofka.davs.socialMediaBack.userlike.domain.UserLike;
 import com.sofka.davs.socialMediaBack.userlike.infrastructure.rest_controller.dto.UserLikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +31,7 @@ public class PostController {
         return new ResponseEntity<PostDTO>(postService.findPostById(postId), HttpStatus.OK);
     }
 
-    @PutMapping("/assignPost/{postId}")
+    @PutMapping("/assignUserLike/{postId}")
     public ResponseEntity<PostDTO> assignUserLikeToPost(@PathVariable Integer postId, @RequestBody UserLikeDTO userLike) {
         return new ResponseEntity<PostDTO>(postService.assignUserLike(postId, userLike), HttpStatus.CREATED);
     }
