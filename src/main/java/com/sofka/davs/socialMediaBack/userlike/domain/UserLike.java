@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,10 @@ public class UserLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Size(min = 10, max = 50,message="the name only can has a min length of 10 and a max length of 50")
     private String name;
 
+    @Size(min = 8, max = 20,message="the name dni can has a min length of 8 and a max length of 20")
     private String dni;
 
     @ManyToMany
